@@ -1,19 +1,37 @@
 <?php
-// phpinfo();
 
-$link = mysqli_connect("mysql", "root", "password", null);
+declare(strict_types=1);
 
-if (!$link) {
-    echo "Error: Unable to connect to MySQL." . PHP_EOL;
-    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
-    exit;
+namespace App;
+
+require_once("src/Utils/debug.php");
+require_once("src/view.php");
+
+const DEFAULT_ACTION = 'list';
+
+$action = $_GET['action'] ?? DEFAULT_ACTION;
+
+$view = new View();
+
+$viewParams = [];
+if ($action === 'create') {
+    $page = 'create';
+    $created = false;
+
+    if (!empty($_POST)) {
+        $viewParams = [
+            'title' => $_POST['title'],
+            'description' => $_POST['description'],
+
+        ];
+        $created = true;
+    }
+
+    $viewParams['created'] = $created;
+} else {
+    $page = 'list';
+    $viewParams['resultList'] = 'Wyswietl notatki';
 }
 
-echo "Success: A proper connection to MySQL was made!" . PHP_EOL. "<br/>";
-echo "Host information: " . mysqli_get_host_info($link) . PHP_EOL. "<br/>";
-echo "MySQL Server version: ".$link->server_version;
+$view->render($page, $viewParams);
 
-mysqli_close($link);
-
-?>

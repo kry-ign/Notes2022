@@ -1,27 +1,27 @@
-<html>
-<head>
-
-</head>
-<body>
-<div class="header">
-    Moje Notatki
-</div>
-<div class="container">
-    <div class="menu">
-        <ul>
-            <li>
-                <a href="/?action=">Lista Notatek</a>
-            </li>
-            <li>
-                <a href="/?action=create">Nowa Notatka</a>
-            </li>
-        </ul>
-    </div>
+<div>
+    <h3> nowa notatka </h3>
     <div>
-            <h1>Nowa Notatka</h1>
+        <?php if ($params['created']) : ?>
+            <div>
+                <div>Tytuł: <?php echo $params['title'] ?></div>
+                <div>Treść: <?php echo $params['description'] ?></div>
+            </div>
+        <?php else: ?>
+            <form class="note-form" action="/?action=create" method="post">
+                <ul>
+                    <li>
+                        <label>Tytuł <span class="required">*</span></label>
+                        <input type="text" name="title" class="field-long"/>
+                    </li>
+                    <li>
+                        <label>Opis</label>
+                        <textarea name="description" id="field5" class="field-long field-textarea"></textarea>
+                    </li>
+                    <li>
+                        <input type="submit" value="submit"/>
+                    </li>
+                </ul>
+            </form>
+        <?php endif; ?>
     </div>
 </div>
-<div class="footer">
-</div>
-</body>
-</html>
